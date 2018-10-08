@@ -38,7 +38,15 @@ export class RevergeGeocoder {
     }
 
     public async getReverse() : Promise<Reverse>{
-        const response = await rp.get('https://nominatim.openstreetmap.org/reverse?format=json&lat='+this.lat+'&lon='+this.lng)
+        const options = {
+			method: 'GET',
+			uri: 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + this.lat + '&lon=' + this.lng,
+			headers: {
+				'User-Agent': 'whatever',
+				Referer: 'http://localhost/'
+			}
+		}
+        const response = await rp.get(options)
         let result : Reverse = {
             placeId : response.place_id,
             displayName : response.display_name,
