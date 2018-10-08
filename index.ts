@@ -1,4 +1,5 @@
 import * as rp from 'request-promise'
+import  * as uid from 'uniqid'
 
 export interface IAddress {
     memorial? : string,
@@ -28,53 +29,48 @@ export interface Reverse {
     address? : IAddress
 }
 
-export class RevergeGeocoder {
+export class ReverseGeocoder {
     private lat : string
     private lng : string
 
-    const(lat : string,lng : string){
+    constructor(lat : string,lng : string){
         this.lat = lat
         this.lng = lng
     }
 
     public async getReverse() : Promise<Reverse>{
-        const options = {
-			method: 'GET',
-			uri: 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + this.lat + '&lon=' + this.lng,
-			headers: {
-				'User-Agent': 'whatever',
-				Referer: 'http://localhost/'
-			}
-		}
-        const response = await rp.get(options)
+        const response = await this.getRequest()
+
         let result : Reverse = {
             placeId : response.place_id,
             displayName : response.display_name,
             lat : response.lat,
-            lng : response.lon
+            lng : response.lon,
+            address : {}
         }
 
         if(response.address){
-            result.address = {
-                city : response.address.city,
-                cityDistrict : response.address.city_district,
-                country : response.address.country,
-                countryCode : response.address.country_code,
-                county : response.address.county,
-                houseNumber : response.address.house_number,
-                memorial : response.address.memorial,
-                neighbourhood : response.address.neighbourhood,
-                pedestrian : response.address.pedestrian,
-                postcode : response.address.postcode,
-                restaurant : response.address.restaurant,
-                road : response.address.road,
-                state : response.address.state,
-                stateDistrict : response.address.state_district,
-                suburb : response.address.suburb,
-                townhall : response.address.townhall,
-                village : response.address.village
+            for (const key in response.address) {
+                if(key.indexOf('_')> -1){
+                    (result.address as any)[key.replace('_','')] = response.address[key]
+                }else{
+                    (result.address as any)[key] = response.address[key]
+                }
             }
         }
         return result
+    }
+
+    private async getRequest() : Promise<any>{
+        const options = {
+			method: 'GET',
+			uri: 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + this.lat + '&lon=' + this.lng,
+			headers: {
+				'User-Agent': uid(),
+				Referer: 'http://'+uid()+'/'
+			}
+		}
+        const response = JSON.parse(await rp.get(options))
+        return response
     }
 }

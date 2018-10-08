@@ -6,10 +6,23 @@
   "license": "MIT",
   "dependencies": {
     "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "uniqid": "^5.0.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
     "@types/request": "^2.47.1",
-    "@types/request-promise": "^4.1.42"
+    "@types/request-promise": "^4.1.42",
+    "@types/sinon": "^5.0.5",
+    "@types/uniqid": "^4.1.2",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "pre-commit": "^1.2.2",
+    "sinon": "^6.3.5",
+    "ts-node": "^7.0.1",
+    "ts-node-dev": "^1.0.0-pre.30",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.1"
   }
 }
