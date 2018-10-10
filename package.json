@@ -2,15 +2,33 @@
   "name": "open-street-map-reverse-geo-node-client",
   "version": "1.0.0",
   "main": "index.ts",
-  "author": "Damien Marchand",
+  "author": {
+    "email": "damien-marchand@outlook.fr",
+    "name": "Damien Marchand"
+  },
   "license": "MIT",
+  "description": "",
+  "keywords": [
+    "reverse geocoder",
+    "free api",
+    "node",
+    "typescript",
+    "open street map"
+  ],
+  "repository": {
+    "url": "https://github.com/damienmarchandfr/open-street-map-reverse-geo-node-client"
+  },
   "dependencies": {
+    "@types/camelcase": "^4.1.0",
+    "camelcase": "^5.0.0",
+    "lodash": "^4.17.11",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "uniqid": "^5.0.3"
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
+    "@types/lodash": "^4.14.117",
     "@types/mocha": "^5.2.5",
     "@types/request": "^2.47.1",
     "@types/request-promise": "^4.1.42",
@@ -24,5 +42,13 @@
     "ts-node-dev": "^1.0.0-pre.30",
     "tslint": "^5.11.0",
     "typescript": "^3.1.1"
-  }
+  },
+  "scripts": {
+    "build": "yarn run tsc",
+    "example": "yarn run ts-node-dev ./example.ts",
+    "test": "mocha -r ts-node/register ./tests/**/*.test.ts --exit --reporter nyan"
+  },
+  "pre-commit": [
+    "test"
+  ]
 }
