@@ -33,7 +33,8 @@ export interface IAddress {
     postcode?: string,
     countryCode?: string,
     theatre?: string,
-    boundingbox?: string
+    boundingbox?: string,
+    town?: string
 }
 
 export interface IReverse {
@@ -52,7 +53,7 @@ export class ReverseGeocoder {
     public static cacheIsEnabled: boolean = true
     public static maxCacheSize: number = 100
 
-        // INPUT
+    // INPUT
     public latInput: string
     public lngInput: string
 
@@ -66,6 +67,15 @@ export class ReverseGeocoder {
         }
         this.latInput = lat
         this.lngInput = lng
+    }
+
+    public async getCityName(): Promise<string> {
+        const reverse = await this.getReverse()
+        return reverse.address.city
+            || reverse.address.village
+            || reverse.address.county
+            || reverse.address.suburb
+            || ''
     }
 
     public enableCache(cacheSize?: number) {

@@ -99,6 +99,8 @@ describe('Test MailBoxLayer class', () => {
         expect(validResponse.address.state).to.eql(result.address.state)
         expect(validResponse.address.suburb).to.eql(result.address.suburb)
         expect(validResponse.address.theatre).to.eql(result.address.theatre)
+        const cityName = await geo.getCityName()
+        expect(cityName).to.eql(result.address.city)
     })
 
 })
