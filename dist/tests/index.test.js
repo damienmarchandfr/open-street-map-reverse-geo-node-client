@@ -155,7 +155,7 @@ describe('Test MailBoxLayer class', function () {
         });
     }); });
     it('should return the response', function () { return __awaiter(_this, void 0, void 0, function () {
-        var result;
+        var result, cityName;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, geo.getReverse()];
@@ -176,6 +176,10 @@ describe('Test MailBoxLayer class', function () {
                     chai_1.expect(response_1.validResponse.address.state).to.eql(result.address.state);
                     chai_1.expect(response_1.validResponse.address.suburb).to.eql(result.address.suburb);
                     chai_1.expect(response_1.validResponse.address.theatre).to.eql(result.address.theatre);
+                    return [4 /*yield*/, geo.getCityName()];
+                case 2:
+                    cityName = _a.sent();
+                    chai_1.expect(cityName).to.eql(result.address.city);
                     return [2 /*return*/];
             }
         });

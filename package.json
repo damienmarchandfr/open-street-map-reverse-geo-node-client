@@ -44,7 +44,7 @@
     "typescript": "^3.1.1"
   },
   "scripts": {
-    "build": "yarn run tsc",
+    "build": "rm -R ./dist && yarn run tsc",
     "example": "yarn run ts-node-dev ./example.ts",
     "test": "mocha -r ts-node/register ./tests/**/*.test.ts --exit --reporter nyan"
   },

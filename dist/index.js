@@ -60,6 +60,23 @@ var ReverseGeocoder = /** @class */ (function () {
         this.latInput = lat;
         this.lngInput = lng;
     }
+    ReverseGeocoder.prototype.getCityName = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var reverse;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getReverse()];
+                    case 1:
+                        reverse = _a.sent();
+                        return [2 /*return*/, reverse.address.city
+                                || reverse.address.village
+                                || reverse.address.county
+                                || reverse.address.suburb
+                                || ''];
+                }
+            });
+        });
+    };
     ReverseGeocoder.prototype.enableCache = function (cacheSize) {
         ReverseGeocoder.cacheIsEnabled = true;
         ReverseGeocoder.maxCacheSize = cacheSize || 100;

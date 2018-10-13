@@ -18,6 +18,7 @@ export interface IAddress {
     countryCode?: string;
     theatre?: string;
     boundingbox?: string;
+    town?: string;
 }
 export interface IReverse {
     placeId: string;
@@ -36,6 +37,7 @@ export declare class ReverseGeocoder {
     latInput: string;
     lngInput: string;
     constructor(lat: string, lng: string);
+    getCityName(): Promise<string>;
     enableCache(cacheSize?: number): void;
     disableCache(): void;
     getReverse(): Promise<IReverse>;
