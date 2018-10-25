@@ -12,6 +12,8 @@ This library can be used to get location information from latitude and longitude
 **It's a free service. You must use this service with moderation.**
 
  ## Installation
+ 
+    Not on NPM now ! 
 
     yarn add open-street-map-reverse-geo-node-client
 
