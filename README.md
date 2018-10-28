@@ -13,7 +13,7 @@ This library can be used to get location information from latitude and longitude
 
  ## Installation
  
-    To install Open Street Map Reverse GeoCoding, run the following command:
+To install Open Street Map Reverse GeoCoding, run the following command:
 
     yarn add open-street-map-reverse-geo-node-client
 
