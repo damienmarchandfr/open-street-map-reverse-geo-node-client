@@ -7,13 +7,13 @@
 
 A **free** reverse geocoding service.
 
-This library can be used to get location information from latitude and longitude for free. To get faster results, it is possible to enable the cache feature to store 1st-request. This allows to reduce the number of API calls. It uses the OSM funcdation API: https://wiki.osmfoundation.org/wiki/Main_Page
+This library can be used to get location information from latitude and longitude for free. To get faster results, it is possible to enable the cache feature to store request results. This allows to reduce the number of API calls. It uses the OSM fundation API: https://wiki.osmfoundation.org/wiki/Main_Page
 
-**It's a free service. You must use this service with moderation.**
+**Open Street Map Reverse GeoCoding is a free service. Use it with moderation.**
 
  ## Installation
  
-    Not on NPM now ! 
+    To install Open Street Map Reverse GeoCoding, run the following command:
 
     yarn add open-street-map-reverse-geo-node-client
 
@@ -23,17 +23,17 @@ or
 
 ## Stop Callbacks! Use Promises
 
-This library does not use callback. Use promise instead.
+This library does not use callbacks. Use promises instead.
 
-## Use lib
-(see examples in /example.ts file)
-
+## Use the library
+(see examples in the /example.ts file)
+ 
     import { ReverseGeocoder } from  '.';
     
     const  geo  =  new  ReverseGeocoder('45.777210', '3.082520')
     const result = await geo.getReverse()
 
-The response
+The response:
 
     {
 	    placeId:  '91511633',
@@ -55,9 +55,9 @@ The response
 	    fromCache :  true
     }
 
-## Enble cache
+## Enable cache
 Cache is enabled by default.
-To disable this options :
+To disable this option:
 
     geo.disableCache()
 
