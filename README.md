@@ -1,8 +1,4 @@
 
-![logo](https://image.ibb.co/n0gFJp/Sans_titre.png)
-
-  
-
 # Open Street Map Reverse GeoCoding
 
 A **free** reverse geocoding service.
