@@ -70,11 +70,13 @@ To disable this option:
 
 ## Run example
 
-    yarn run example
+    yarn run example:js
+	yarn run example:ts
 
 or
 
-    npm run example
+    npm run example:js
+	npm run example:ts
 
 ## Run tests
 
