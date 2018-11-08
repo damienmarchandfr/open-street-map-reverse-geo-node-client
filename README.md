@@ -22,7 +22,6 @@ or
 This library does not use callbacks. Use promises instead.
 
 ## Use the library with TypeScript
-(see examples in the /example.ts file)
  
     import { ReverseGeocoder } from  '.';
     
@@ -51,32 +50,11 @@ The response:
 	    fromCache :  true
     }
 
-## Use the library with JavaScript
-(see examples in the /example.js file)
-
-	const Geo = require('./dist')
-
-	const reverse = new Geo.ReverseGeocoder('45.777210', '3.082520')
-
-	reverse.getReverse()
-		.then((location)=>{console.log(location)})
-		.catch(err=>{console.error(err)})
-
 ## Enable cache
 Cache is enabled by default.
 To disable this option:
 
     geo.disableCache()
-
-## Run example
-
-    yarn run example:js
-	yarn run example:ts
-
-or
-
-    npm run example:js
-	npm run example:ts
 
 ## Run tests
 

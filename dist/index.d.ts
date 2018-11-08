@@ -1,3 +1,5 @@
+export declare class OpenStreelMapReverseGeoError extends Error {
+}
 export interface IAddress {
     memorial?: string;
     village?: string;
