@@ -48,29 +48,33 @@ export interface IReverse {
     fromCache: boolean
 }
 
+export interface IReverseGeocoderConfig {
+    cacheIsEnabled: boolean
+    maxCacheSize?: number
+}
+
 export class ReverseGeocoder {
-    public static cache: IReverse[] = []
-    public static cacheIsEnabled: boolean = true
-    public static maxCacheSize: number = 100
-
-    // INPUT
-    public latInput: string
-    public lngInput: string
-
-    constructor(lat: string, lng: string) {
-        // Validate lat and lng
-        if (!isLatitude(lat)) {
-            throw new OpenStreelMapReverseGeoError('Latitude is not valid')
-        }
-        if (!isLongitude(lng)) {
-            throw new OpenStreelMapReverseGeoError('Longitude is not valid')
-        }
-        this.latInput = lat
-        this.lngInput = lng
+    private config: IReverseGeocoderConfig = {
+        cacheIsEnabled : true,
+        maxCacheSize : 100
     }
 
-    public async getCityName(): Promise<string> {
-        const reverse = await this.getReverse()
+    private cache: IReverse[]
+
+    constructor(config?: IReverseGeocoderConfig) {
+        this.cache = []
+        if (config) {
+            this.config = config
+        }
+    }
+
+    /**
+     * Return city name from lat and lng
+     * @param lat
+     * @param lng
+     */
+    public async getCityName(lat: string, lng: string): Promise<string> {
+        const reverse = await this.getReverse(lat, lng)
         return reverse.address.city
             || reverse.address.village
             || reverse.address.county
@@ -78,32 +82,41 @@ export class ReverseGeocoder {
             || ''
     }
 
-    public enableCache(cacheSize?: number) {
-        ReverseGeocoder.cacheIsEnabled = true
-        ReverseGeocoder.maxCacheSize = cacheSize || 100
+    public enableCache(cacheSize = 100) {
+        this.config.cacheIsEnabled = true
+        this.config.maxCacheSize = cacheSize
+        this.cache = []
     }
 
     public disableCache() {
-        ReverseGeocoder.cacheIsEnabled = false
-        ReverseGeocoder.cache = []
+        this.config.cacheIsEnabled = false
+        this.cache = []
     }
 
-    public async getReverse(): Promise<IReverse> {
+    public async getReverse(latInput: string, lngInput: string): Promise<IReverse> {
+        // Verify lat and lng
+        if (!isLatitude(latInput)) {
+            throw new OpenStreelMapReverseGeoError('Latitude is not valid')
+        }
+        if (!isLongitude(lngInput)) {
+            throw new OpenStreelMapReverseGeoError('Longitude is not valid')
+        }
+
         // API response
         let response: any
 
         // Search in cache
-        if (ReverseGeocoder.cacheIsEnabled) {
-            const index =  this.isInCache(this.latInput, this.lngInput)
+        if (this.config.cacheIsEnabled) {
+            const index =  this.isInCache(latInput, lngInput)
             if (index > -1) {
-                const resultInCache = ReverseGeocoder.cache[index]
+                const resultInCache = this.cache[index]
                 resultInCache.fromCache = true
-                return ReverseGeocoder.cache[index]
+                return this.cache[index]
             }
         }
 
         // Not in cache make request
-        response = await this.getRequest()
+        response = await this.getRequest(latInput, lngInput)
 
         if (response.error) {
             throw new OpenStreelMapReverseGeoError(response.error)
@@ -115,8 +128,8 @@ export class ReverseGeocoder {
             lat : response.lat,
             lng : response.lon,
             address : {},
-            latInput : this.latInput,
-            lngInput : this.lngInput,
+            latInput,
+            lngInput,
             fromCache : false
         }
 
@@ -130,25 +143,35 @@ export class ReverseGeocoder {
             }
         }
 
-        if (ReverseGeocoder.cacheIsEnabled) {
-            ReverseGeocoder.cache.push(result)
+        if (this.config.cacheIsEnabled && this.cache.length < (this.config.maxCacheSize || 100)) {
+            this.cache.push(result)
         }
 
         return result
     }
 
+    /**
+     * Return index of element in cache
+     * @param lat
+     * @param lng
+     */
     public isInCache(lat: string, lng: string): number {
-        return  _.findIndex(ReverseGeocoder.cache, (o) => {
+        return  _.findIndex(this.cache, (o) => {
            return o.latInput === lat && o.lngInput === lng
        })
     }
 
-    public async getRequest(): Promise<any> {
+    /**
+     * Get request to API
+     * @param latInput
+     * @param lngInput
+     */
+    public async getRequest(latInput: string, lngInput: string): Promise<any> {
         const options = {
             method: 'GET',
             uri: 'https://nominatim.openstreetmap.org/reverse?format=json' +
-                '&lat=' + this.latInput +
-                '&lon=' + this.lngInput,
+                '&lat=' + latInput +
+                '&lon=' + lngInput,
             headers: {
                 'User-Agent': uid(),
                 'Referer': 'http://' + uid() + '/'

@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import * as fs from 'fs'
 import 'mocha'
 import * as sinon from 'sinon'
 import {validResponse, errorResponse} from './response'
@@ -9,8 +8,8 @@ import { ReverseGeocoder } from '..';
 let stub: sinon.SinonStub
 let stub2: sinon.SinonStub
 
-const geo = new ReverseGeocoder('0', '0')
-const geo2 = new ReverseGeocoder('1', '1')
+const geo = new ReverseGeocoder()
+const geo2 = new ReverseGeocoder()
 
 describe('Test MailBoxLayer class', () => {
     beforeEach( async () => {
@@ -24,23 +23,24 @@ describe('Test MailBoxLayer class', () => {
     })
 
     it('should throw error if lat or lng is not valid', async () => {
+        const geoError = new ReverseGeocoder()
         let error: OpenStreelMapReverseGeoError = new OpenStreelMapReverseGeoError()
         try {
-            new ReverseGeocoder('-200', '0')
+            await geoError.getCityName('-200', '0')
         } catch (err) {
-            error = err
+               error = err
         }
         expect(error.message).to.eql('Latitude is not valid')
 
         try {
-            new ReverseGeocoder('0', '-200')
+            await geoError.getCityName('0', '-200')
         } catch (err) {
             error = err
         }
         expect(error.message).to.eql('Longitude is not valid')
 
         try {
-            new ReverseGeocoder('-200', '-200')
+            await geoError.getCityName('-200', '-200')
         } catch (err) {
             error = err
         }
@@ -54,7 +54,7 @@ describe('Test MailBoxLayer class', () => {
         let error = new OpenStreelMapReverseGeoError()
 
         try {
-            await geo.getReverse()
+            await await geo.getReverse('0', '0')
         } catch (err) {
             error = err
         }
@@ -63,27 +63,27 @@ describe('Test MailBoxLayer class', () => {
     })
 
     it('should return add to cache by default', async () => {
-       let result = await  geo.getReverse()
+       let result = await  geo.getReverse('0', '0')
        expect(result.fromCache).to.be.false
-       result = await  geo.getReverse()
+       result = await  geo.getReverse('0', '0')
        expect(result.fromCache).to.be.true
-       result = await geo2.getReverse()
+       result = await geo2.getReverse('0', '0')
        expect(result.fromCache).to.be.false
-       result = await  geo2.getReverse()
+       result = await  geo2.getReverse('0', '0')
        expect(result.fromCache).to.be.true
     })
 
     it('should not add in cache if disabled', async () => {
         geo.disableCache()
-        let result = await  geo.getReverse()
+        let result = await  geo.getReverse('0', '0')
         expect(result.fromCache).to.be.false
-        result = await  geo.getReverse()
+        result = await  geo.getReverse('0', '0')
         expect(result.fromCache).to.be.false
         geo.enableCache()
     })
 
     it('should return the response', async () => {
-        const result = await geo.getReverse()
+        const result = await geo.getReverse('0', '0')
         expect( result.displayName).to.eql(validResponse.display_name)
         expect( result.lat).to.eql(validResponse.lat)
         expect( result.lng).to.eql(validResponse.lon)
@@ -99,7 +99,7 @@ describe('Test MailBoxLayer class', () => {
         expect(validResponse.address.state).to.eql(result.address.state)
         expect(validResponse.address.suburb).to.eql(result.address.suburb)
         expect(validResponse.address.theatre).to.eql(result.address.theatre)
-        const cityName = await geo.getCityName()
+        const cityName = await geo.getCityName('0', '0')
         expect(cityName).to.eql(result.address.city)
     })
 

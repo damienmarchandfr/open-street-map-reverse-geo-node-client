@@ -26,8 +26,8 @@ This library does not use callbacks. Use promises instead.
  
     import { ReverseGeocoder } from  '.';
     
-    const  geo  =  new  ReverseGeocoder('45.777210', '3.082520')
-    const result = await geo.getReverse()
+    const  geo  =  new  ReverseGeocoder()
+    const result = await geo.getReverse('0','0')
 
 The response:
 
@@ -52,13 +52,12 @@ The response:
     }
 
 ## Use the library with JavaScript
-(see examples in the /example.js file)
 
 	const Geo = require('./dist')
 
-	const reverse = new Geo.ReverseGeocoder('45.777210', '3.082520')
+	const reverse = new Geo.ReverseGeocoder()
 
-	reverse.getReverse()
+	reverse.getReverse('45.777210', '3.082520')
 		.then((location)=>{console.log(location)})
 		.catch(err=>{console.error(err)})
 
