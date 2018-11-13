@@ -2,7 +2,8 @@ import * as rp from 'request-promise'
 import * as uid from 'uniqid'
 import * as _ from 'lodash'
 import * as camelcase from 'camelcase'
-import { OpenStreelMapReverseGeoError } from './Error';
+
+export class OpenStreelMapReverseGeoError extends Error {}
 
 function isLongitude(lng: string) {
     const lngN = Number(lng)

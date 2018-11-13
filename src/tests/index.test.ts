@@ -2,8 +2,7 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import {validResponse, errorResponse} from './response'
-import { OpenStreelMapReverseGeoError } from '../Error';
-import { ReverseGeocoder } from '..';
+import { ReverseGeocoder, OpenStreelMapReverseGeoError } from '..';
 
 let stub: sinon.SinonStub
 let stub2: sinon.SinonStub

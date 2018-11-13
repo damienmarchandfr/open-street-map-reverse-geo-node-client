@@ -22,7 +22,7 @@ or
 This library does not use callbacks. Use promises instead.
 
 ## Use the library with TypeScript
-(see examples in the /example.ts file)
+( see src/tests/index.test.ts file )
  
     import { ReverseGeocoder } from  '.';
     
@@ -48,7 +48,7 @@ The response:
 		    postcode:  '63037',
 		    countryCode:  'fr'
 	    },
-	    fromCache :  true
+	    fromCache :  false
     }
 
 ## Use the library with JavaScript
@@ -66,16 +66,6 @@ Cache is enabled by default.
 To disable this option:
 
     geo.disableCache()
-
-## Run example
-
-    yarn run example:js
-	yarn run example:ts
-
-or
-
-    npm run example:js
-	npm run example:ts
 
 ## Run tests
 
