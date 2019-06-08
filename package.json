@@ -23,7 +23,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=7.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "camelcase": "^5.3.1",
