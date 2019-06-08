@@ -3,6 +3,8 @@ import * as uid from 'uniqid'
 import * as _ from 'lodash'
 import * as camelcase from 'camelcase'
 
+import {validResponse} from './tests/response'
+
 export class OpenStreelMapReverseGeoError extends Error {}
 
 function isLongitude(lng: string) {
@@ -51,13 +53,15 @@ export interface IReverse {
 
 export interface IReverseGeocoderConfig {
     cacheIsEnabled: boolean
+    callApi?: boolean
     maxCacheSize?: number
 }
 
 export class ReverseGeocoder {
     private config: IReverseGeocoderConfig = {
         cacheIsEnabled : true,
-        maxCacheSize : 100
+        maxCacheSize : 100,
+        callApi: true
     }
 
     private cache: IReverse[]
@@ -94,6 +98,11 @@ export class ReverseGeocoder {
         this.cache = []
     }
 
+    /**
+     * Returns informations from geo point
+     * @param latInput
+     * @param lngInput
+     */
     public async getReverse(latInput: string, lngInput: string): Promise<IReverse> {
         // Verify lat and lng
         if (!isLatitude(latInput)) {
@@ -117,7 +126,7 @@ export class ReverseGeocoder {
         }
 
         // Not in cache make request
-        response = await this.getRequest(latInput, lngInput)
+        response = await this.getRequest(latInput, lngInput, this.config.callApi)
 
         if (response.error) {
             throw new OpenStreelMapReverseGeoError(response.error)
@@ -163,11 +172,16 @@ export class ReverseGeocoder {
     }
 
     /**
-     * Get request to API
+     * Get request to API. Return any. Use getReverse to get an IReverse
      * @param latInput
      * @param lngInput
      */
-    public async getRequest(latInput: string, lngInput: string): Promise<any> {
+    public async getRequest(latInput: string, lngInput: string, callApi = true): Promise<any> {
+        if (!callApi) {
+            console.log(`open-street-map-reverse-geo-node-client module returns a fake response.`)
+            return validResponse
+        }
+
         const options = {
             method: 'GET',
             uri: 'https://nominatim.openstreetmap.org/reverse?format=json' +
