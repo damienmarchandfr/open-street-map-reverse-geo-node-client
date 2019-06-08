@@ -1,5 +1,6 @@
 
 # Open Street Map Reverse GeoCoding
+[![Build Status](https://travis-ci.com/damienmarchandfr/open-street-map-reverse-geo-node-client.svg?branch=master)](https://travis-ci.com/damienmarchandfr/open-street-map-reverse-geo-node-client)
 
 A **free** reverse geocoding service.
 
