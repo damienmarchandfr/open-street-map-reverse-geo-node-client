@@ -53,7 +53,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc",
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "npm run build",
     "test": "mocha -r ts-node/register ./src/tests/**/*.test.ts --exit --reporter nyan"
   },
   "pre-commit": [
