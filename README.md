@@ -68,6 +68,25 @@ To disable this option:
 
     geo.disableCache()
 
+## Configure
+You can configure your reverse geocoder instance.
+
+	const fakeGeo = new ReverseGeocoder({
+		cacheIsEnabled : false, // Enable or disable cache
+		callApi : false, // Set to true for your tests
+		maxCacheSize : 200 // Number of elements saved in memory
+	})
+
+## Mock
+
+If you want to run your test without calling API you can configure your reverse geocoder instance.
+
+	const fakeGeo = new ReverseGeocoder({
+		cacheIsEnabled : false,
+		callApi : false
+	})
+
+
 ## Run tests
 
     yarn run test
