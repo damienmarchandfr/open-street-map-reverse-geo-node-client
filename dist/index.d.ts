@@ -34,6 +34,7 @@ export interface IReverse {
 }
 export interface IReverseGeocoderConfig {
     cacheIsEnabled: boolean;
+    callApi?: boolean;
     maxCacheSize?: number;
 }
 export declare class ReverseGeocoder {
@@ -48,6 +49,11 @@ export declare class ReverseGeocoder {
     getCityName(lat: string, lng: string): Promise<string>;
     enableCache(cacheSize?: number): void;
     disableCache(): void;
+    /**
+     * Returns informations from geo point
+     * @param latInput
+     * @param lngInput
+     */
     getReverse(latInput: string, lngInput: string): Promise<IReverse>;
     /**
      * Return index of element in cache
@@ -56,9 +62,9 @@ export declare class ReverseGeocoder {
      */
     isInCache(lat: string, lng: string): number;
     /**
-     * Get request to API
+     * Get request to API. Return any. Use getReverse to get an IReverse
      * @param latInput
      * @param lngInput
      */
-    getRequest(latInput: string, lngInput: string): Promise<any>;
+    getRequest(latInput: string, lngInput: string, callApi?: boolean): Promise<any>;
 }

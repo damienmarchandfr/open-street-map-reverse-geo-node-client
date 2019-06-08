@@ -12,6 +12,7 @@ const rp = require("request-promise");
 const uid = require("uniqid");
 const _ = require("lodash");
 const camelcase = require("camelcase");
+const response_1 = require("./tests/response");
 class OpenStreelMapReverseGeoError extends Error {
 }
 exports.OpenStreelMapReverseGeoError = OpenStreelMapReverseGeoError;
@@ -27,7 +28,8 @@ class ReverseGeocoder {
     constructor(config) {
         this.config = {
             cacheIsEnabled: true,
-            maxCacheSize: 100
+            maxCacheSize: 100,
+            callApi: true
         };
         this.cache = [];
         if (config) {
@@ -58,6 +60,11 @@ class ReverseGeocoder {
         this.config.cacheIsEnabled = false;
         this.cache = [];
     }
+    /**
+     * Returns informations from geo point
+     * @param latInput
+     * @param lngInput
+     */
     getReverse(latInput, lngInput) {
         return __awaiter(this, void 0, void 0, function* () {
             // Verify lat and lng
@@ -79,7 +86,7 @@ class ReverseGeocoder {
                 }
             }
             // Not in cache make request
-            response = yield this.getRequest(latInput, lngInput);
+            response = yield this.getRequest(latInput, lngInput, this.config.callApi);
             if (response.error) {
                 throw new OpenStreelMapReverseGeoError(response.error);
             }
@@ -120,12 +127,16 @@ class ReverseGeocoder {
         });
     }
     /**
-     * Get request to API
+     * Get request to API. Return any. Use getReverse to get an IReverse
      * @param latInput
      * @param lngInput
      */
-    getRequest(latInput, lngInput) {
+    getRequest(latInput, lngInput, callApi = true) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!callApi) {
+                console.log(`open-street-map-reverse-geo-node-client module returns a fake response.`);
+                return response_1.validResponse;
+            }
             const options = {
                 method: 'GET',
                 uri: 'https://nominatim.openstreetmap.org/reverse?format=json' +
