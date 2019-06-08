@@ -4,4 +4,4 @@ node_js:
   - v9
   - v8
 script:
-  - npm test
+  - yarn test
