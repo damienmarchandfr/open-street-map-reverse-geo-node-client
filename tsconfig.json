@@ -12,5 +12,5 @@
     "noUnusedParameters": false,
     "moduleResolution": "node"
   },
-  "exclude": ["./src/tests/**/*.*"]
+  "exclude": ["./src/tests/**/*.*","./dist"]
 }
