@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorResponse = exports.validResponse = void 0;
 exports.validResponse = {
     place_id: '91511633',
     licence: 'Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright',

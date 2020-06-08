@@ -1,6 +1,6 @@
 {
   "name": "open-street-map-reverse-geo-node-client",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "author": {
     "email": "damien-marchand@outlook.fr",
     "name": "Damien Marchand"
@@ -55,7 +55,7 @@
     "build": "rimraf dist && tsc",
     "prepublishOnly": "yarn run build",
     "test": "mocha -r ts-node/register ./src/tests/**/*.test.ts --exit --reporter nyan",
-    "example": "ts-node-dev example.ts"
+    "example": "ts-node-dev ./src/example.ts"
   },
   "pre-commit": [
     "test"
